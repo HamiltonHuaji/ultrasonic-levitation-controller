@@ -114,9 +114,10 @@ int GPIOController::get(unsigned int offset) {
     return phase_write[offset];
 }
 void GPIOController::swap_buffer() {
-    lock.lock();
+    // lock.lock();
     std::swap(phase_read, phase_write);
-    lock.unlock();
+    flush();
+    // lock.unlock();
 }
 void GPIOController::fill_buffer(const pybind11::array_t<int> &input) {
     pybind11::buffer_info bufi = input.request();
@@ -142,9 +143,9 @@ GPIOController::GPIOController() {
     digitalWrite(pin_clock, LOW);
     digitalWrite(pin_load, HIGH);
     flush();
-    std::thread v(std::bind(&GPIOController::gpioloop, this));
-    thread = std::move(v);
-    thread.detach();
+    // std::thread v(std::bind(&GPIOController::gpioloop, this));
+    // thread = std::move(v);
+    // thread.detach();
 }
 GPIOController::~GPIOController() {
     should_stop = true;

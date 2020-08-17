@@ -50,13 +50,23 @@ try:
             elif t == "s":
                 for o in opt:
                     pin, val = o.split("=")[0:2]
-                    buffer[int(pin)] = int(val)
+                    if pin.isdigit():
+                        buffer[int(pin)] = int(val)
+                    else:
+                        pinmin, pinmax = pin.split("~")
+                        for p in range(int(pinmin), int(pinmax)):
+                            buffer[p] = int(val)
             elif t == "p":
                 submit()
             elif t == "sp":
                 for o in opt:
                     pin, val = o.split("=")[0:2]
-                    buffer[int(pin)] = int(val)
+                    if pin.isdigit():
+                        buffer[int(pin)] = int(val)
+                    else:
+                        pinmin, pinmax = pin.split("~")
+                        for p in range(int(pinmin), int(pinmax)):
+                            buffer[p] = int(val)
                 submit()
             elif t == "x":
                 starttime = time.time()
